@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const getToken = require('../utils/getToken')
 
 
 const db = require('../data/helpers')
@@ -14,7 +15,10 @@ router.post('/', (req, res) => {
         user.password = hash;
 
         db.addUser(user)
-        .then(added => res.status(201).json(added))
+        .then(added => {
+                const token = getToken(user.username)
+                res.status(201).json({message: `Thanks for registering, ${user.username}!`, token: token})
+        })
         .catch(err => res.status(500).json({ error: 'Could not add user' }))
 
     } else {
