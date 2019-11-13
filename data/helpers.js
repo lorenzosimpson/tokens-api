@@ -14,7 +14,7 @@ function addUser(user) {
 }
 
 function findUser(username) {
-    return db('users').select('id', 'username', 'department')
+    return db('users')
     .first()
     .where('username', username)
 }
